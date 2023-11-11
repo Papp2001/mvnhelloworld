@@ -1,0 +1,12 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: your-app
+spec:
+  replicas: 3
+  template:
+    spec:
+      containers:
+        - name: your-app
+          image: your-image
+          imagePullPolicy: Never

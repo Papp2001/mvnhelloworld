@@ -1,0 +1,31 @@
+name: CD Workflow
+
+on:
+  push:
+    branches:
+      - main  # Change to your default branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Minikube
+        uses: machine-learning-apps/minikube@v1
+        with:
+          minikube-version: latest
+
+      - name: Start Minikube
+        run: |
+          minikube start --cpus 2 --memory 4096 --kubernetes-version v1.22.2
+
+      - name: Set up kubectl
+        run: |
+          minikube kubectl-env | Invoke-Expression
+
+      - name: Deploy Application to Minikube
+        run: |
+          kubectl apply -f your-k8s-deployment.yaml
